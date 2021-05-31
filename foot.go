@@ -3,8 +3,8 @@ package tables
 import "html/template"
 
 type Foot struct {
-	Attributes Attributes `json:"attributes,omitempty"`
-	Rows       Rows       `json:"rows,omitempty"`
+	Attributes Attributes `json:"attributes,omitempty" xml:"attributes,omitempty"`
+	Rows       Rows       `json:"rows,omitempty" xml:"rows,omitempty"`
 }
 
 func (c *Foot) defaultHTMLString() string {

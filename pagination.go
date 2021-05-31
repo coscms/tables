@@ -7,10 +7,10 @@ import (
 
 func NewPagination(ctx echo.Context) *Pagination {
 	return &Pagination{
-		p: pagination.New(ctx),
+		Pagination: pagination.New(ctx),
 	}
 }
 
 type Pagination struct {
-	p *pagination.Pagination
+	*pagination.Pagination
 }

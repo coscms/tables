@@ -11,12 +11,12 @@ func New() *Table {
 }
 
 type Table struct {
-	Attributes Attributes `json:"attributes,omitempty"`
-	Caption    *Caption   `json:"caption,omitempty"`
-	Cols       Cols       `json:"cols,omitempty"`
-	Head       *Head      `json:"head,omitempty"`
-	Body       *Body      `json:"body,omitempty"`
-	Foot       *Foot      `json:"foot,omitempty"`
+	Attributes Attributes `json:"attributes,omitempty" xml:"attributes,omitempty"`
+	Caption    *Caption   `json:"caption,omitempty" xml:"caption,omitempty"`
+	Cols       Cols       `json:"cols,omitempty" xml:"cols,omitempty"`
+	Head       *Head      `json:"head,omitempty" xml:"head,omitempty"`
+	Body       *Body      `json:"body,omitempty" xml:"body,omitempty"`
+	Foot       *Foot      `json:"foot,omitempty" xml:"foot,omitempty"`
 }
 
 func (c *Table) defaultHTMLString() string {

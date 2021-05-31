@@ -23,11 +23,11 @@ func (c Cells) Render() template.HTML {
 }
 
 type Cell struct {
-	IsHead     bool        `json:"isHead"`
-	Style      string      `json:"-"`
-	Template   string      `json:"-"`
-	Attributes Attributes  `json:"attributes,omitempty"`
-	Content    interface{} `json:"content"`
+	IsHead     bool        `json:"isHead" xml:"isHead"`
+	Style      string      `json:"style" xml:"style"`
+	Template   string      `json:"template" xml:"template"`
+	Attributes Attributes  `json:"attributes,omitempty" xml:"attributes,omitempty"`
+	Content    interface{} `json:"content" xml:"content"`
 	widget     widgets.WidgetInterface
 }
 

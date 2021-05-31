@@ -17,7 +17,7 @@ func (c Cols) Render() template.HTML {
 }
 
 type Col struct {
-	Attributes Attributes `json:"attributes,omitempty"`
+	Attributes Attributes `json:"attributes,omitempty" xml:"attributes,omitempty"`
 }
 
 func (c *Col) defaultHTMLString() string {

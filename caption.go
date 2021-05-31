@@ -9,10 +9,10 @@ import (
 )
 
 type Caption struct {
-	Attributes Attributes
-	Style      string
-	Template   string
-	Content    interface{}
+	Attributes Attributes  `json:"attributes,omitempty" xml:"attributes,omitempty"`
+	Style      string      `json:"style" xml:"style"`
+	Template   string      `json:"template" xml:"template"`
+	Content    interface{} `json:"content" xml:"content"`
 	widget     widgets.WidgetInterface
 }
 
