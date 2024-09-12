@@ -1,6 +1,8 @@
 package tables
 
 import (
+	"html/template"
+
 	"github.com/coscms/forms/common"
 	"github.com/coscms/forms/widgets"
 )
@@ -8,23 +10,19 @@ import (
 // BaseWidget creates a Widget based on style and inpuType parameters, both defined in the common package.
 func BaseWidget(style, inputType, tmplName string) *widgets.Widget {
 	cachedKey := style + ", " + inputType + ", " + tmplName
-	tmpl, ok := common.CachedTemplate(cachedKey)
-	if !ok {
+	tmpl, err := common.GetOrSetCachedTemplate(cachedKey, func() (*template.Template, error) {
 		var (
 			fpath = common.TmplDir(style) + "/" + style + "/"
 			urls  = []string{common.LookupPath(fpath + "generic.html")}
 			tpath = widgetTmpl(inputType, tmplName)
-			err   error
 		)
 		urls = append(urls, common.LookupPath(fpath+tpath+".html"))
-		tmpl, err = common.ParseFiles(urls...)
-		if err != nil {
-			panic(err)
-		}
-		common.SetCachedTemplate(cachedKey, tmpl)
-	} else {
-		tmpl.Funcs(common.TplFuncs())
+		return common.ParseFiles(urls...)
+	})
+	if err != nil {
+		panic(err)
 	}
+	tmpl.Funcs(common.TplFuncs())
 	return widgets.New(tmpl)
 }
 
