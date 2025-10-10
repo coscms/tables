@@ -117,3 +117,22 @@ func (c *Table) AddCol(cols ...*Col) *Table {
 	c.Cols.Add(cols...)
 	return c
 }
+
+func (c *Table) ToMaps() []map[string]interface{} {
+	r := make([]map[string]interface{}, len(c.Body.Rows))
+	for i, row := range c.Body.Rows {
+		m := make(map[string]interface{}, len(c.Cols))
+		for j, col := range c.Cols {
+			if len(col.Key) == 0 {
+				continue
+			}
+			if len(row.Cells) > j {
+				m[col.Key] = row.Cells[j].Content
+			} else {
+				break
+			}
+		}
+		r[i] = m
+	}
+	return r
+}

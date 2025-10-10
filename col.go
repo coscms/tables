@@ -30,6 +30,7 @@ func NewCol(attributes Attributes) *Col {
 
 type Col struct {
 	Attributes Attributes `json:"attributes,omitempty" xml:"attributes,omitempty"`
+	Key        string     `json:"key,omitempty" xml:"key,omitempty"`
 }
 
 func (c *Col) defaultHTMLString() string {
@@ -46,5 +47,10 @@ func (c *Col) Render() template.HTML {
 
 func (c *Col) SetAttr(k, v string) *Col {
 	c.Attributes.Set(k, v)
+	return c
+}
+
+func (c *Col) SetKey(key string) *Col {
+	c.Key = key
 	return c
 }
