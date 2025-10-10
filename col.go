@@ -21,9 +21,12 @@ func (c Cols) Render() template.HTML {
 	return template.HTML(c.render())
 }
 
-func NewCol(attributes Attributes) *Col {
+func NewCol(attributes Attributes, key ...string) *Col {
 	c := &Col{
 		Attributes: attributes,
+	}
+	if len(key) > 0 {
+		c.Key = key[0]
 	}
 	return c
 }
