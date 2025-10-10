@@ -39,7 +39,7 @@ func (c Cells) Render() template.HTML {
 
 func CellIsHead(isHead bool) func(c *Cell) {
 	return func(c *Cell) {
-		c.IsHead = isHead
+		c.IsHead = &isHead
 	}
 }
 
@@ -68,7 +68,7 @@ func CellContent(content interface{}) func(c *Cell) {
 }
 
 type Cell struct {
-	IsHead     bool        `json:"isHead" xml:"isHead"`
+	IsHead     *bool       `json:"isHead" xml:"isHead"`
 	Style      string      `json:"style" xml:"style"`
 	Template   string      `json:"template" xml:"template"`
 	Attributes Attributes  `json:"attributes,omitempty" xml:"attributes,omitempty"`
@@ -82,7 +82,7 @@ func (c *Cell) String() string {
 
 func (c *Cell) defaultHTMLString() string {
 	tag := TagCell
-	if c.IsHead {
+	if c.IsHead != nil && *c.IsHead {
 		tag = TagHeadCell
 	}
 	return `<` + tag + GenAttr(c.Attributes) + `>` + html.EscapeString(fmt.Sprint(c.Content)) + `</` + tag + `>`
@@ -94,7 +94,7 @@ func (c *Cell) render() string {
 	}
 	if c.widget == nil {
 		tag := TagCell
-		if c.IsHead {
+		if c.IsHead != nil && *c.IsHead {
 			tag = TagHeadCell
 		}
 		c.widget = widgets.BaseWidget(c.Style, tag, c.Template)
@@ -131,6 +131,6 @@ func (c *Cell) SetContent(content interface{}) *Cell {
 }
 
 func (c *Cell) SetIsHead(isHead bool) *Cell {
-	c.IsHead = isHead
+	c.IsHead = &isHead
 	return c
 }
