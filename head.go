@@ -16,6 +16,16 @@ func (c *Head) AddRow(rows ...*Row) *Head {
 	return c
 }
 
+func (c *Head) AddHeadRow(rows ...*Row) *Head {
+	for _, row := range rows {
+		for _, cell := range row.Cells {
+			cell.IsHead = true
+		}
+	}
+	c.AddRow(rows...)
+	return c
+}
+
 func (c *Head) SetAttr(k, v string) *Head {
 	c.Attributes.Set(k, v)
 	return c
