@@ -8,6 +8,16 @@ import (
 	"github.com/coscms/forms/widgets"
 )
 
+func NewCell(content interface{}, options ...func(c *Cell)) *Cell {
+	c := &Cell{
+		Content: content,
+	}
+	for _, opt := range options {
+		opt(c)
+	}
+	return c
+}
+
 type Cells []*Cell
 
 func (c Cells) render() string {
@@ -18,8 +28,43 @@ func (c Cells) render() string {
 	return r
 }
 
+func (c *Cells) Add(cells ...*Cell) *Cells {
+	*c = append(*c, cells...)
+	return c
+}
+
 func (c Cells) Render() template.HTML {
 	return template.HTML(c.render())
+}
+
+func CellIsHead(isHead bool) func(c *Cell) {
+	return func(c *Cell) {
+		c.IsHead = isHead
+	}
+}
+
+func CellStyle(style string) func(c *Cell) {
+	return func(c *Cell) {
+		c.Style = style
+	}
+}
+
+func CellTemplate(tmpl string) func(c *Cell) {
+	return func(c *Cell) {
+		c.Template = tmpl
+	}
+}
+
+func CellAttributes(attributes Attributes) func(c *Cell) {
+	return func(c *Cell) {
+		c.Attributes = attributes
+	}
+}
+
+func CellContent(content interface{}) func(c *Cell) {
+	return func(c *Cell) {
+		c.Content = content
+	}
 }
 
 type Cell struct {
@@ -63,4 +108,29 @@ func (c *Cell) render() string {
 
 func (c *Cell) Render() template.HTML {
 	return template.HTML(c.render())
+}
+
+func (c *Cell) SetAttr(k, v string) *Cell {
+	c.Attributes.Set(k, v)
+	return c
+}
+
+func (c *Cell) SetStyle(style string) *Cell {
+	c.Style = style
+	return c
+}
+
+func (c *Cell) SetTemplate(tmpl string) *Cell {
+	c.Template = tmpl
+	return c
+}
+
+func (c *Cell) SetContent(content interface{}) *Cell {
+	c.Content = content
+	return c
+}
+
+func (c *Cell) SetIsHead(isHead bool) *Cell {
+	c.IsHead = isHead
+	return c
 }

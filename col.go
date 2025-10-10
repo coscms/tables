@@ -12,8 +12,20 @@ func (c Cols) render() string {
 	return r
 }
 
+func (c *Cols) Add(cols ...*Col) *Cols {
+	*c = append(*c, cols...)
+	return c
+}
+
 func (c Cols) Render() template.HTML {
 	return template.HTML(c.render())
+}
+
+func NewCol(attributes Attributes) *Col {
+	c := &Col{
+		Attributes: attributes,
+	}
+	return c
 }
 
 type Col struct {
@@ -30,4 +42,9 @@ func (c *Col) render() string {
 
 func (c *Col) Render() template.HTML {
 	return template.HTML(c.render())
+}
+
+func (c *Col) SetAttr(k, v string) *Col {
+	c.Attributes.Set(k, v)
+	return c
 }

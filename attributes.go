@@ -22,3 +22,8 @@ func (a Attributes) Slice() []string {
 func (a Attributes) String() string {
 	return strings.Join(a.Slice(), ` `)
 }
+
+func (a *Attributes) Set(k, v string) *Attributes {
+	(*a)[k] = v
+	return a
+}

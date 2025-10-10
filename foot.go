@@ -11,6 +11,16 @@ func (c *Foot) defaultHTMLString() string {
 	return `<` + TagFoot + GenAttr(c.Attributes) + `>` + c.Rows.render() + `</` + TagFoot + `>`
 }
 
+func (c *Foot) AddRow(rows ...*Row) *Foot {
+	c.Rows.Add(rows...)
+	return c
+}
+
+func (c *Foot) SetAttr(k, v string) *Foot {
+	c.Attributes.Set(k, v)
+	return c
+}
+
 func (c *Foot) render() string {
 	return c.defaultHTMLString()
 }

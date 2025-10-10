@@ -32,7 +32,7 @@ func widgetTmpl(inputType, tmpl string) (tpath string) {
 
 func GenAttr(a Attributes) string {
 	var attrs string
-	if a != nil {
+	if len(a) > 0 {
 		attrs = a.String()
 		if len(attrs) > 0 {
 			attrs = ` ` + attrs

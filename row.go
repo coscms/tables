@@ -14,6 +14,11 @@ func (c Rows) render() string {
 	return r
 }
 
+func (c *Rows) Add(rows ...*Row) *Rows {
+	*c = append(*c, rows...)
+	return c
+}
+
 func (c Rows) Render() template.HTML {
 	return template.HTML(c.render())
 }
@@ -25,6 +30,16 @@ type Row struct {
 
 func (c *Row) defaultHTMLString() string {
 	return `<` + TagRow + GenAttr(c.Attributes) + `>` + c.Cells.render() + `</` + TagRow + `>`
+}
+
+func (c *Row) AddCell(cells ...*Cell) *Row {
+	c.Cells.Add(cells...)
+	return c
+}
+
+func (c *Row) SetAttr(k, v string) *Row {
+	c.Attributes.Set(k, v)
+	return c
 }
 
 func (c *Row) render() string {
