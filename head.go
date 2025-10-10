@@ -12,6 +12,11 @@ func (c *Head) defaultHTMLString() string {
 }
 
 func (c *Head) AddRow(rows ...*Row) *Head {
+	for _, row := range rows {
+		for _, cell := range row.Cells {
+			cell.IsHead = true
+		}
+	}
 	c.Rows.Add(rows...)
 	return c
 }
