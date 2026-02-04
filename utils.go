@@ -61,6 +61,8 @@ func GetContentHTML(c interface{}) template.HTML {
 		return template.HTML(html.EscapeString(vv.Render()))
 	case string:
 		return template.HTML(html.EscapeString(vv))
+	case nil:
+		return template.HTML(``)
 	default:
 		return template.HTML(html.EscapeString(fmt.Sprint(vv)))
 	}
