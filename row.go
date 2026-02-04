@@ -24,6 +24,13 @@ func (c Rows) Render() template.HTML {
 	return template.HTML(c.render())
 }
 
+func NewRow(cells ...*Cell) *Row {
+	return &Row{
+		Cells:      cells,
+		Attributes: Attributes{},
+	}
+}
+
 type Row struct {
 	Attributes Attributes `json:"attributes,omitempty"`
 	Cells      Cells      `json:"cells,omitempty"`

@@ -8,7 +8,7 @@ import (
 type Attributes map[string]string
 
 func (a Attributes) Slice() []string {
-	var attrs []string
+	attrs := make([]string, 0, len(a))
 	for k, v := range a {
 		if len(v) > 0 {
 			attrs = append(attrs, fmt.Sprintf("%s=%q", k, v))
