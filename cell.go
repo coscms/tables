@@ -2,8 +2,8 @@ package tables
 
 import (
 	"fmt"
-	"html"
 	"html/template"
+	"strings"
 
 	"github.com/coscms/forms/widgets"
 )
@@ -21,11 +21,11 @@ func NewCell(content interface{}, options ...func(c *Cell)) *Cell {
 type Cells []*Cell
 
 func (c Cells) render() string {
-	var r string
+	var r strings.Builder
 	for _, v := range c {
-		r += v.render()
+		r.WriteString(v.render())
 	}
-	return r
+	return r.String()
 }
 
 func (c *Cells) Add(cells ...*Cell) *Cells {
@@ -43,9 +43,9 @@ func CellIsHead(isHead bool) func(c *Cell) {
 	}
 }
 
-func CellStyle(style string) func(c *Cell) {
+func CellTheme(theme string) func(c *Cell) {
 	return func(c *Cell) {
-		c.Style = style
+		c.Theme = theme
 	}
 }
 
@@ -61,6 +61,12 @@ func CellAttributes(attributes Attributes) func(c *Cell) {
 	}
 }
 
+func CellAttr(k, v string) func(c *Cell) {
+	return func(c *Cell) {
+		c.Attributes.Set(k, v)
+	}
+}
+
 func CellContent(content interface{}) func(c *Cell) {
 	return func(c *Cell) {
 		c.Content = content
@@ -69,7 +75,7 @@ func CellContent(content interface{}) func(c *Cell) {
 
 type Cell struct {
 	IsHead     *bool       `json:"isHead" xml:"isHead"`
-	Style      string      `json:"style" xml:"style"`
+	Theme      string      `json:"theme" xml:"theme"`
 	Template   string      `json:"template" xml:"template"`
 	Attributes Attributes  `json:"attributes,omitempty" xml:"attributes,omitempty"`
 	Content    interface{} `json:"content" xml:"content"`
@@ -85,7 +91,8 @@ func (c *Cell) defaultHTMLString() string {
 	if c.IsHead != nil && *c.IsHead {
 		tag = TagHeadCell
 	}
-	return `<` + tag + GenAttr(c.Attributes) + `>` + html.EscapeString(fmt.Sprint(c.Content)) + `</` + tag + `>`
+	v := GetContentString(c.Content)
+	return `<` + tag + GenAttr(c.Attributes) + `>` + v + `</` + tag + `>`
 }
 
 func (c *Cell) render() string {
@@ -97,7 +104,7 @@ func (c *Cell) render() string {
 		if c.IsHead != nil && *c.IsHead {
 			tag = TagHeadCell
 		}
-		c.widget = widgets.BaseWidget(c.Style, tag, c.Template)
+		c.widget = widgets.BaseWidget(c.Theme, tag, c.Template)
 	}
 	data := map[string]interface{}{
 		`content`:    c.Content,
@@ -115,8 +122,8 @@ func (c *Cell) SetAttr(k, v string) *Cell {
 	return c
 }
 
-func (c *Cell) SetStyle(style string) *Cell {
-	c.Style = style
+func (c *Cell) SetTheme(theme string) *Cell {
+	c.Theme = theme
 	return c
 }
 
@@ -132,5 +139,15 @@ func (c *Cell) SetContent(content interface{}) *Cell {
 
 func (c *Cell) SetIsHead(isHead bool) *Cell {
 	c.IsHead = &isHead
+	return c
+}
+
+func (c *Cell) SetWidget(widget widgets.WidgetInterface) *Cell {
+	c.widget = widget
+	return c
+}
+
+func (c *Cell) SetAttributes(attributes Attributes) *Cell {
+	c.Attributes = attributes
 	return c
 }

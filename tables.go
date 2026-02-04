@@ -1,6 +1,9 @@
 package tables
 
-import "html/template"
+import (
+	"html/template"
+	"strings"
+)
 
 func New() *Table {
 	return &Table{
@@ -21,23 +24,23 @@ type Table struct {
 }
 
 func (c *Table) defaultHTMLString() string {
-	var r string
+	var r strings.Builder
 	if c.Caption != nil {
-		r += c.Caption.render()
+		r.WriteString(c.Caption.render())
 	}
 	if len(c.Cols) > 0 {
-		r += c.Cols.render()
+		r.WriteString(c.Cols.render())
 	}
 	if c.Head != nil {
-		r += c.Head.render()
+		r.WriteString(c.Head.render())
 	}
 	if c.Body != nil {
-		r += c.Body.render()
+		r.WriteString(c.Body.render())
 	}
 	if c.Foot != nil {
-		r += c.Foot.render()
+		r.WriteString(c.Foot.render())
 	}
-	return `<` + TagTable + GenAttr(c.Attributes) + `>` + r + `</` + TagTable + `>`
+	return `<` + TagTable + GenAttr(c.Attributes) + `>` + r.String() + `</` + TagTable + `>`
 }
 
 func (c *Table) render() string {
@@ -65,9 +68,9 @@ func (c *Table) SetCaptionAttr(k, v string) *Table {
 	return c
 }
 
-func (c *Table) SetCaptionStyle(style string) *Table {
+func (c *Table) SetCaptionTheme(theme string) *Table {
 	c.initCaption()
-	c.Caption.Style = style
+	c.Caption.Theme = theme
 	return c
 }
 

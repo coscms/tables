@@ -2,7 +2,6 @@ package tables
 
 import (
 	"fmt"
-	"html"
 	"html/template"
 
 	"github.com/coscms/forms/widgets"
@@ -18,9 +17,9 @@ func NewCaption(content interface{}, options ...func(c *Caption)) *Caption {
 	return c
 }
 
-func CaptionStyle(style string) func(c *Caption) {
+func CaptionTheme(theme string) func(c *Caption) {
 	return func(c *Caption) {
-		c.Style = style
+		c.Theme = theme
 	}
 }
 
@@ -36,6 +35,12 @@ func CaptionAttributes(attributes Attributes) func(c *Caption) {
 	}
 }
 
+func CaptionAttr(k, v string) func(c *Caption) {
+	return func(c *Caption) {
+		c.Attributes.Set(k, v)
+	}
+}
+
 func CaptionContent(content interface{}) func(c *Caption) {
 	return func(c *Caption) {
 		c.Content = content
@@ -44,7 +49,7 @@ func CaptionContent(content interface{}) func(c *Caption) {
 
 type Caption struct {
 	Attributes Attributes  `json:"attributes,omitempty" xml:"attributes,omitempty"`
-	Style      string      `json:"style" xml:"style"`
+	Theme      string      `json:"theme" xml:"theme"`
 	Template   string      `json:"template" xml:"template"`
 	Content    interface{} `json:"content" xml:"content"`
 	widget     widgets.WidgetInterface
@@ -55,7 +60,8 @@ func (c *Caption) String() string {
 }
 
 func (c *Caption) defaultHTMLString() string {
-	return `<` + TagCaption + GenAttr(c.Attributes) + `>` + html.EscapeString(fmt.Sprint(c.Content)) + `</` + TagCaption + `>`
+	v := GetContentString(c.Content)
+	return `<` + TagCaption + GenAttr(c.Attributes) + `>` + v + `</` + TagCaption + `>`
 }
 
 func (c *Caption) render() string {
@@ -63,7 +69,7 @@ func (c *Caption) render() string {
 		return c.defaultHTMLString()
 	}
 	if c.widget == nil {
-		c.widget = widgets.BaseWidget(c.Style, TagCaption, c.Template)
+		c.widget = widgets.BaseWidget(c.Theme, TagCaption, c.Template)
 	}
 	return c.widget.Render(c.Content)
 }
@@ -77,8 +83,8 @@ func (c *Caption) SetAttr(k, v string) *Caption {
 	return c
 }
 
-func (c *Caption) SetStyle(style string) *Caption {
-	c.Style = style
+func (c *Caption) SetTheme(theme string) *Caption {
+	c.Theme = theme
 	return c
 }
 

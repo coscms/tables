@@ -1,15 +1,18 @@
 package tables
 
-import "html/template"
+import (
+	"html/template"
+	"strings"
+)
 
 type Cols []*Col
 
 func (c Cols) render() string {
-	var r string
+	var r strings.Builder
 	for _, v := range c {
-		r += v.render()
+		r.WriteString(v.render())
 	}
-	return r
+	return r.String()
 }
 
 func (c *Cols) Add(cols ...*Col) *Cols {

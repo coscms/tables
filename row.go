@@ -2,16 +2,17 @@ package tables
 
 import (
 	"html/template"
+	"strings"
 )
 
 type Rows []*Row
 
 func (c Rows) render() string {
-	var r string
+	var r strings.Builder
 	for _, v := range c {
-		r += v.render()
+		r.WriteString(v.render())
 	}
-	return r
+	return r.String()
 }
 
 func (c *Rows) Add(rows ...*Row) *Rows {

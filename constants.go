@@ -7,6 +7,7 @@ const (
 	TagFoot     = `tfoot`
 	TagRow      = `tr`
 	TagCell     = `td`
+	TagLink     = `a`
 	TagHeadCell = `th`
 	TagCol      = `col`
 	TagColGroup = `colgroup`
