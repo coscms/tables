@@ -113,9 +113,13 @@ func (c *Link) SetTheme(theme string) *Link {
 	return c
 }
 
+func (c *Link) ContentString() string {
+	return GetContentString(c.Content)
+}
+
 func (c *Link) defaultHTMLString() string {
 	tag := TagLink
-	v := GetContentString(c.Content)
+	v := c.ContentString()
 	class := c.Class
 	if len(class) > 0 {
 		class = ` class="` + class + `"`
