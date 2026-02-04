@@ -51,18 +51,18 @@ type StringRenderer interface {
 	Render() string
 }
 
-func GetContentString(c interface{}) string {
+func GetContentHTML(c interface{}) template.HTML {
 	switch vv := c.(type) {
 	case template.HTML:
-		return string(vv)
+		return vv
 	case HTMLRenderer:
-		return string(vv.Render())
+		return vv.Render()
 	case StringRenderer:
-		return html.EscapeString(vv.Render())
+		return template.HTML(html.EscapeString(vv.Render()))
 	case string:
-		return html.EscapeString(vv)
+		return template.HTML(html.EscapeString(vv))
 	default:
-		return html.EscapeString(fmt.Sprint(vv))
+		return template.HTML(html.EscapeString(fmt.Sprint(vv)))
 	}
 }
 

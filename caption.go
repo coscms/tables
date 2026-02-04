@@ -60,8 +60,12 @@ func (c *Caption) String() string {
 	return fmt.Sprint(c.Content)
 }
 
+func (c *Caption) ContentHTML() template.HTML {
+	return GetContentHTML(c.Content)
+}
+
 func (c *Caption) defaultHTMLString() string {
-	v := GetContentString(c.Content)
+	v := string(c.ContentHTML())
 	return `<` + TagCaption + GenAttr(c.Attributes) + `>` + v + `</` + TagCaption + `>`
 }
 

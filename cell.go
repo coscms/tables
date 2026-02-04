@@ -87,12 +87,16 @@ func (c *Cell) String() string {
 	return fmt.Sprint(c.Content)
 }
 
+func (c *Cell) ContentHTML() template.HTML {
+	return GetContentHTML(c.Content)
+}
+
 func (c *Cell) defaultHTMLString() string {
 	tag := TagCell
 	if c.IsHead != nil && *c.IsHead {
 		tag = TagHeadCell
 	}
-	v := GetContentString(c.Content)
+	v := string(c.ContentHTML())
 	return `<` + tag + GenAttr(c.Attributes) + `>` + v + `</` + tag + `>`
 }
 
