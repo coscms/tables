@@ -9,7 +9,8 @@ import (
 
 func NewCaption(content interface{}, options ...func(c *Caption)) *Caption {
 	c := &Caption{
-		Content: content,
+		Content:    content,
+		Attributes: Attributes{},
 	}
 	for _, opt := range options {
 		opt(c)

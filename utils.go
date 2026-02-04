@@ -59,6 +59,8 @@ func GetContentString(c interface{}) string {
 		return string(vv.Render())
 	case StringRenderer:
 		return html.EscapeString(vv.Render())
+	case string:
+		return html.EscapeString(vv)
 	default:
 		return html.EscapeString(fmt.Sprint(vv))
 	}

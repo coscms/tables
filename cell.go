@@ -10,7 +10,8 @@ import (
 
 func NewCell(content interface{}, options ...func(c *Cell)) *Cell {
 	c := &Cell{
-		Content: content,
+		Content:    content,
+		Attributes: Attributes{},
 	}
 	for _, opt := range options {
 		opt(c)

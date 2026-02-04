@@ -169,7 +169,9 @@ func (c *Link) SetAttr(k, v string) *Link {
 }
 
 func NewLink(options ...func(c *Link)) *Link {
-	l := &Link{}
+	l := &Link{
+		Attributes: Attributes{},
+	}
 	for _, option := range options {
 		option(l)
 	}

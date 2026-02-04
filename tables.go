@@ -8,9 +8,15 @@ import (
 func New() *Table {
 	return &Table{
 		Attributes: Attributes{},
-		Head:       &Head{},
-		Body:       &Body{},
-		Foot:       &Foot{},
+		Head: &Head{
+			Attributes: Attributes{},
+		},
+		Body: &Body{
+			Attributes: Attributes{},
+		},
+		Foot: &Foot{
+			Attributes: Attributes{},
+		},
 	}
 }
 
@@ -58,7 +64,9 @@ func (c *Table) SetAttr(k, v string) *Table {
 
 func (c *Table) initCaption() {
 	if c.Caption == nil {
-		c.Caption = &Caption{}
+		c.Caption = &Caption{
+			Attributes: Attributes{},
+		}
 	}
 }
 
