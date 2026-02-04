@@ -70,6 +70,9 @@ func GetContentHTML(c interface{}) template.HTML {
 
 func MakeIconClass(typ string, icon string) string {
 	if len(icon) > 0 {
+		if len(typ) == 0 {
+			return icon
+		}
 		return typ + ` ` + typ + `-` + icon
 	}
 	return typ
