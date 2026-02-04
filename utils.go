@@ -43,12 +43,22 @@ func GenAttr(a Attributes) string {
 	return attrs
 }
 
+type HTMLRenderer interface {
+	Render() template.HTML
+}
+
+type StringRenderer interface {
+	Render() string
+}
+
 func GetContentString(c interface{}) string {
 	switch vv := c.(type) {
 	case template.HTML:
 		return string(vv)
-	case Renderer:
+	case HTMLRenderer:
 		return string(vv.Render())
+	case StringRenderer:
+		return html.EscapeString(vv.Render())
 	default:
 		return html.EscapeString(fmt.Sprint(vv))
 	}

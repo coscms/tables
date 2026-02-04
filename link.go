@@ -159,10 +159,6 @@ func (c *Link) render() string {
 	return c.widget.Render(data)
 }
 
-type Renderer interface {
-	Render() template.HTML
-}
-
 func (c *Link) Render() template.HTML {
 	return template.HTML(c.render())
 }
