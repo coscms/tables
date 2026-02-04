@@ -61,7 +61,11 @@ func (l *Link) SetTitle(title string) *Link {
 	return l
 }
 
-func (l *Link) SetIcon(icon string) *Link {
+func (l *Link) SetIcon(icon string, typ ...string) *Link {
+	if len(typ) > 0 && len(typ[0]) > 0 {
+		l.Icon = MakeIconClass(typ[0], icon)
+		return l
+	}
 	l.Icon = icon
 	return l
 }
@@ -210,9 +214,9 @@ func LinkTitle(title string) func(c *Link) {
 	}
 }
 
-func LinkIcon(icon string) func(c *Link) {
+func LinkIcon(icon string, typ ...string) func(c *Link) {
 	return func(c *Link) {
-		c.Icon = icon
+		c.SetIcon(icon, typ...)
 	}
 }
 
