@@ -154,6 +154,12 @@ func (c *Link) render() string {
 	}
 	data := map[string]interface{}{
 		`content`:    c.Content,
+		`href`:       c.Href,
+		`title`:      c.Title,
+		`icon`:       c.Icon,
+		`confirm`:    c.Confirm,
+		`class`:      c.Class,
+		`toggle`:     c.Toggle,
 		`attributes`: c.Attributes,
 	}
 	return c.widget.Render(data)
